@@ -29,3 +29,32 @@ AttributeError: 'NoneType' object has no attribute 'id'
 2025-06-27 09:17:42,613 | INFO | NetworkTask stopped
 2025-06-27 09:17:42,613 | INFO | Disconnected
 2025-06-27 09:17:42,613 | INFO | Session stopped
+2025-06-27 09:21:03,364 | INFO | Connecting...
+2025-06-27 09:21:03,543 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:21:03,543 | INFO | NetworkTask started
+2025-06-27 09:21:04,396 | INFO | Session initialized: Layer 158
+2025-06-27 09:21:04,396 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:21:04,396 | INFO | System: Windows 11 (en)
+2025-06-27 09:21:04,396 | INFO | Session started
+2025-06-27 09:21:04,411 | INFO | PingTask started
+2025-06-27 09:21:04,809 | INFO | Started 12 HandlerTasks
+2025-06-27 09:21:17,120 | ERROR | 'NoneType' object has no attribute 'id'
+Traceback (most recent call last):
+  File "C:\Users\jain computer\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pyrogram\dispatcher.py", line 240, in handler_worker
+    await handler.callback(self.client, *args)
+  File "d:\New folder\bot.py", line 265, in start_message
+    logging.info(f"/start by {message.from_user.id} ({message.from_user.first_name})")
+                              ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'id'
+2025-06-27 09:23:48,641 | INFO | Stop signal received (SIGINT). Exiting...
+2025-06-27 09:23:48,684 | INFO | Stopped 12 HandlerTasks
+2025-06-27 09:23:48,684 | INFO | PingTask stopped
+2025-06-27 09:23:48,684 | INFO | NetworkTask stopped
+2025-06-27 09:23:48,684 | INFO | Disconnected
+2025-06-27 09:23:48,684 | INFO | Session stopped
+2025-06-27 09:23:56,093 | INFO | Connecting...
+2025-06-27 09:23:56,191 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:23:56,194 | INFO | NetworkTask started
+2025-06-27 09:23:56,629 | INFO | NetworkTask stopped
+2025-06-27 09:23:56,631 | INFO | Disconnected
+2025-06-27 09:23:56,631 | INFO | Session stopped

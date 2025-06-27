@@ -296,9 +296,15 @@ async def stop_command(bot, message: Message):
 async def shutdown_bot(bot, message: Message):
     chat_id = message.chat.id
     await bot.send_message(chat_id, "🛑 Bot is shutting down by command /ronny.")
-    logging.warning(f"❌ Bot shutdown triggered by user {chat_id} ({message.from_user.first_name})")
+
+    user = message.from_user
+    user_id = user.id if user else "Unknown"
+    user_name = user.first_name if user and user.first_name else "Unknown"
+
+    logging.warning(f"❌ Bot shutdown triggered by user {user_id} ({user_name})")
+
     await asyncio.sleep(2)
-    os._exit(0)  # Force exit without cleanup
+    os._exit(0)
 
 
 @bot.on_message(filters.document)
