@@ -59,32 +59,48 @@ async def delete_after(bot, msg, delay):
 
 
 def get_video_size(url):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Referer": "https://utkarsh.com/",
+    }
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0"
-        }
         r = requests.get(url, stream=True, timeout=10, headers=headers)
         if r.status_code == 200 and 'Content-Length' in r.headers:
             size_mb = int(r.headers['Content-Length']) / (1024 * 1024)
             logging.info(f"✅ Size check passed: {url} | {size_mb:.2f} MB")
             return size_mb
         else:
-            logging.warning(f"⚠️ Size check failed: {url} | Status: {r.status_code}, Headers: {r.headers}")
+            logging.warning(f"⚠️ Size check failed: {url} | Status: {r.status_code}")
     except Exception as e:
         logging.error(f"❌ Exception while checking size: {e} | URL: {url}")
     return None
 
 def find_best_resolution(base_url):
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Referer": "https://utkarsh.com/"
+    }
+
     for res in RESOLUTIONS:
         test_url = base_url.replace("720x1280", res)
-        size = get_video_size(test_url)
-        if size and size <= MAX_SIZE_MB:
-            logging.info(f"🎯 Selected resolution: {res} | Size: {size:.2f} MB | URL: {test_url}")
-            return test_url, res
-        else:
-            logging.warning(f"❌ Skipping resolution: {res} | Size: {size}")
+        try:
+            response = requests.get(test_url, stream=True, timeout=10, headers=headers)
+            if response.status_code == 200:
+                size_mb = get_video_size(test_url)
+                if size_mb is None or size_mb <= MAX_SIZE_MB:
+                    logging.info(f"🎯 Selected resolution: {res} | Size: {size_mb if size_mb else 'Unknown'} MB | URL: {test_url}")
+                    return test_url, res
+                else:
+                    logging.warning(f"❌ Skipping resolution: {res} | Size: {size_mb:.2f} MB")
+            else:
+                logging.warning(f"❌ GET failed: {res} | Status: {response.status_code}")
+        except Exception as e:
+            logging.error(f"❌ Error checking resolution {res}: {e}")
+
     logging.error(f"❌ No suitable resolution found for base URL: {base_url}")
     return None, None
+
 
 def generate_thumbnail(video_path):
     thumb = "thumb.jpg"
