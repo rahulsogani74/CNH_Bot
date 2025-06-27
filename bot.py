@@ -262,7 +262,11 @@ async def upload_video(app, chat_id, filename, caption, index):
 
 @bot.on_message(filters.command("start"))
 async def start_message(bot, message: Message):
-    logging.info(f"/start by {message.from_user.id} ({message.from_user.first_name})")
+    user = message.from_user
+    user_id = user.id if user else "Unknown"
+    user_name = user.first_name if user and user.first_name else "Unknown"
+
+    logging.info(f"/start by {user_id} ({user_name})")
     await send_temp_message(bot, message.chat.id,
         "👋 Welcome to the Lecture Video Uploader Bot!\n\n"
         "📂 Use /upload to start uploading your lecture file (.html or .txt).\n"
