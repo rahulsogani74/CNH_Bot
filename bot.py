@@ -12,6 +12,7 @@ import time
 import logging
 
 from dotenv import load_dotenv
+from playwright.async_api import async_playwright
 
 load_dotenv()
 
@@ -57,7 +58,12 @@ async def delete_after(bot, msg, delay):
     except:
         pass
 
-def get_video_size(url, headers):
+def get_video_size(url):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Referer": "https://utkarsh.com/",
+    }
     try:
         r = requests.get(url, stream=True, timeout=10, headers=headers)
         if r.status_code == 200 and 'Content-Length' in r.headers:
@@ -71,33 +77,26 @@ def get_video_size(url, headers):
     return None
 
 def find_best_resolution(base_url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-        "Referer": "https://utkarsh.com/",
-        "Accept": "*/*",
-    }
-
-    session = requests.Session()  # Session helps with cookies and persistent headers
+    headers = {"User-Agent": "Mozilla/5.0"}
 
     for res in RESOLUTIONS:
         test_url = base_url.replace("720x1280", res)
         try:
-            response = session.get(test_url, stream=True, timeout=10, headers=headers)
+            response = requests.head(test_url, headers=headers, timeout=10, allow_redirects=True)
             if response.status_code == 200:
-                size_mb = get_video_size(test_url, headers)
+                size_mb = get_video_size(test_url)
                 if size_mb is None or size_mb <= MAX_SIZE_MB:
                     logging.info(f"🎯 Selected resolution: {res} | Size: {size_mb if size_mb else 'Unknown'} MB | URL: {test_url}")
                     return test_url, res
                 else:
                     logging.warning(f"❌ Skipping resolution: {res} | Size: {size_mb:.2f} MB")
             else:
-                logging.warning(f"❌ GET failed: {res} | Status: {response.status_code}")
+                logging.warning(f"❌ HEAD failed: {res} | Status: {response.status_code}")
         except Exception as e:
             logging.error(f"❌ Error checking resolution {res}: {e}")
 
     logging.error(f"❌ No suitable resolution found for base URL: {base_url}")
     return None, None
-
 
 def generate_thumbnail(video_path):
     thumb = "thumb.jpg"
@@ -137,51 +136,42 @@ async def download_video(entry, index, course_name, chat_id):
         raise asyncio.CancelledError("Stopped by user.")
 
     url, title = entry['url'], entry['title']
-    final_url, res = find_best_resolution(url)
-    if not final_url:
-        print(f"\n❌ No resolution found: {title}")
-        return None, None
-
-    print(f"\n📚 Lecture {index} | {title}\n📺 Resolution: {res}")
-    await send_temp_message(bot, chat_id, f"\n📚 Lecture {index}\n🎮 {title}\n📺 Trying Resolution: {res}", delay=10)
-
     safe_title = re.sub(r'[<>:"/\\|?*]', '_', title)[:150].strip()
-    filename = os.path.join(DOWNLOAD_DIR, f"Lecture {index} - {safe_title} ({res}).mp4")
+    filename = os.path.join(DOWNLOAD_DIR, f"Lecture {index} - {safe_title}.mp4")
 
     caption = (
-        f"📚 Lecture {index}\n🎮 {title}\n"
-        f"📖 Course: {course_name}\n📺 Resolution: {res}\n"
-        f"─────────────────\n🧠 Extracted by: @CompNotesHub"
+        f"\U0001F4DA Lecture {index}\n\U0001F3AE {title}\n"
+        f"\U0001F4D6 Course: {course_name}\n"
+        f"─────────────────\n\U0001F9E0 Extracted by: @CompNotesHub"
     )
 
     try:
-        r = await asyncio.to_thread(lambda: requests.get(final_url, stream=True, timeout=15))
+        async with async_playwright() as p:
+            browser = await p.chromium.launch()
+            context = await browser.new_context()
+            page = await context.new_page()
+            await page.goto(url)
 
-        total = int(r.headers.get("Content-Length", 0))
-        if "video" not in r.headers.get("Content-Type", ""):
-            return None, None
+            await page.wait_for_timeout(2000)
+            video_url = url  # Adjust if needed to extract from page JS
 
-        start = time.time()
-        with open(filename, "wb") as f:
-            with tqdm(total=total, unit="B", unit_scale=True, desc=f"📥 Download {index}", ascii=" ░▒▓", ncols=80) as bar:
-                for chunk in r.iter_content(chunk_size=1024 * 1024):
-                    if chat_id in stop_flag:
-                        raise asyncio.CancelledError("Stopped by user during download.")
-                    if chunk:
+            stream = await page.request.get(video_url)
+            total = int(stream.headers.get("content-length", 0))
+
+            with open(filename, "wb") as f:
+                downloaded = 0
+                with tqdm(total=total, unit="B", unit_scale=True, desc=f"\U0001F4E5 Download {index}", ascii=" ░▒▓", ncols=80) as bar:
+                    async for chunk in stream.body():
                         f.write(chunk)
+                        downloaded += len(chunk)
                         bar.update(len(chunk))
-        end = time.time()
-        print(f"⏱ Download Time: {round(end - start, 2)}s")
-        return filename, caption
-    except asyncio.CancelledError:
-        print("⛔ Download cancelled.")
-        if os.path.exists(filename): os.remove(filename)
-        return None, None
+
+            await browser.close()
+            return filename, caption
     except Exception as e:
-        print(f"❌ Download error: {e}")
+        logging.error(f"❌ Download failed: {e}")
         return None, None
-
-
+    
 async def upload_video(app, chat_id, filename, caption, index):
     if not os.path.exists(filename) or chat_id in stop_flag:
         raise asyncio.CancelledError("Stopped by user.")
