@@ -1,13 +1,35 @@
-2025-06-27 09:10:45,776 | INFO | Connecting...
-2025-06-27 09:10:45,906 | INFO | Connected! Production DC5 - IPv4
-2025-06-27 09:10:45,908 | INFO | NetworkTask started
-2025-06-27 09:10:46,470 | INFO | Session initialized: Layer 158
-2025-06-27 09:10:46,486 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
-2025-06-27 09:10:46,486 | INFO | System: Windows 11 (en)
-2025-06-27 09:10:46,486 | INFO | Session started
-2025-06-27 09:10:46,486 | INFO | PingTask started
-2025-06-27 09:10:46,777 | INFO | Started 12 HandlerTasks
-2025-06-27 09:10:55,018 | ERROR | 'NoneType' object has no attribute 'id'
+2025-06-27 09:29:48,448 | INFO | Start creating a new auth key on DC2
+2025-06-27 09:29:48,448 | INFO | Connecting...
+2025-06-27 09:29:48,597 | INFO | Connected! Production DC2 - IPv4
+2025-06-27 09:29:50,423 | INFO | Done auth key exchange: DhGenOk
+2025-06-27 09:29:50,423 | INFO | Disconnected
+2025-06-27 09:29:50,453 | INFO | Connecting...
+2025-06-27 09:29:50,594 | INFO | Connected! Production DC2 - IPv4
+2025-06-27 09:29:50,611 | INFO | NetworkTask started
+2025-06-27 09:29:51,284 | INFO | Session initialized: Layer 158
+2025-06-27 09:29:51,284 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:29:51,284 | INFO | System: Windows 11 (en)
+2025-06-27 09:29:51,299 | INFO | Session started
+2025-06-27 09:29:51,302 | INFO | PingTask started
+2025-06-27 09:29:51,474 | INFO | PingTask stopped
+2025-06-27 09:29:51,474 | INFO | NetworkTask stopped
+2025-06-27 09:29:51,474 | INFO | Disconnected
+2025-06-27 09:29:51,476 | INFO | Session stopped
+2025-06-27 09:29:51,497 | INFO | Start creating a new auth key on DC5
+2025-06-27 09:29:51,498 | INFO | Connecting...
+2025-06-27 09:29:51,614 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:29:53,369 | INFO | Done auth key exchange: DhGenOk
+2025-06-27 09:29:53,370 | INFO | Disconnected
+2025-06-27 09:29:53,391 | INFO | Connecting...
+2025-06-27 09:29:53,486 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:29:53,486 | INFO | NetworkTask started
+2025-06-27 09:29:53,913 | INFO | Session initialized: Layer 158
+2025-06-27 09:29:53,913 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:29:53,913 | INFO | System: Windows 11 (en)
+2025-06-27 09:29:53,913 | INFO | Session started
+2025-06-27 09:29:53,913 | INFO | PingTask started
+2025-06-27 09:29:54,282 | INFO | Started 12 HandlerTasks
+2025-06-27 09:30:13,331 | ERROR | 'NoneType' object has no attribute 'id'
 Traceback (most recent call last):
   File "C:\Users\jain computer\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pyrogram\dispatcher.py", line 240, in handler_worker
     await handler.callback(self.client, *args)
@@ -15,46 +37,77 @@ Traceback (most recent call last):
     logging.info(f"/start by {message.from_user.id} ({message.from_user.first_name})")
                               ^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'NoneType' object has no attribute 'id'
-2025-06-27 09:11:46,164 | ERROR | 'NoneType' object has no attribute 'id'
-Traceback (most recent call last):
-  File "C:\Users\jain computer\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pyrogram\dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "d:\New folder\bot.py", line 265, in start_message
-    logging.info(f"/start by {message.from_user.id} ({message.from_user.first_name})")
-                              ^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'id'
-2025-06-27 09:17:42,549 | INFO | Stop signal received (SIGINT). Exiting...
-2025-06-27 09:17:42,597 | INFO | Stopped 12 HandlerTasks
-2025-06-27 09:17:42,597 | INFO | PingTask stopped
-2025-06-27 09:17:42,613 | INFO | NetworkTask stopped
-2025-06-27 09:17:42,613 | INFO | Disconnected
-2025-06-27 09:17:42,613 | INFO | Session stopped
-2025-06-27 09:21:03,364 | INFO | Connecting...
-2025-06-27 09:21:03,543 | INFO | Connected! Production DC5 - IPv4
-2025-06-27 09:21:03,543 | INFO | NetworkTask started
-2025-06-27 09:21:04,396 | INFO | Session initialized: Layer 158
-2025-06-27 09:21:04,396 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
-2025-06-27 09:21:04,396 | INFO | System: Windows 11 (en)
-2025-06-27 09:21:04,396 | INFO | Session started
-2025-06-27 09:21:04,411 | INFO | PingTask started
-2025-06-27 09:21:04,809 | INFO | Started 12 HandlerTasks
-2025-06-27 09:21:17,120 | ERROR | 'NoneType' object has no attribute 'id'
-Traceback (most recent call last):
-  File "C:\Users\jain computer\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\pyrogram\dispatcher.py", line 240, in handler_worker
-    await handler.callback(self.client, *args)
-  File "d:\New folder\bot.py", line 265, in start_message
-    logging.info(f"/start by {message.from_user.id} ({message.from_user.first_name})")
-                              ^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'id'
-2025-06-27 09:23:48,641 | INFO | Stop signal received (SIGINT). Exiting...
-2025-06-27 09:23:48,684 | INFO | Stopped 12 HandlerTasks
-2025-06-27 09:23:48,684 | INFO | PingTask stopped
-2025-06-27 09:23:48,684 | INFO | NetworkTask stopped
-2025-06-27 09:23:48,684 | INFO | Disconnected
-2025-06-27 09:23:48,684 | INFO | Session stopped
-2025-06-27 09:23:56,093 | INFO | Connecting...
-2025-06-27 09:23:56,191 | INFO | Connected! Production DC5 - IPv4
-2025-06-27 09:23:56,194 | INFO | NetworkTask started
-2025-06-27 09:23:56,629 | INFO | NetworkTask stopped
-2025-06-27 09:23:56,631 | INFO | Disconnected
-2025-06-27 09:23:56,631 | INFO | Session stopped
+2025-06-27 09:30:23,731 | INFO | Stop signal received (SIGINT). Exiting...
+2025-06-27 09:30:23,741 | INFO | Stopped 12 HandlerTasks
+2025-06-27 09:30:23,742 | INFO | PingTask stopped
+2025-06-27 09:30:23,742 | INFO | NetworkTask stopped
+2025-06-27 09:30:23,742 | INFO | Disconnected
+2025-06-27 09:30:23,744 | INFO | Session stopped
+2025-06-27 09:30:40,756 | INFO | Connecting...
+2025-06-27 09:30:40,884 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:30:40,885 | INFO | NetworkTask started
+2025-06-27 09:30:41,696 | INFO | Session initialized: Layer 158
+2025-06-27 09:30:41,696 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:30:41,696 | INFO | System: Windows 11 (en)
+2025-06-27 09:30:41,696 | INFO | Session started
+2025-06-27 09:30:41,706 | INFO | PingTask started
+2025-06-27 09:30:42,098 | INFO | Started 12 HandlerTasks
+2025-06-27 09:30:55,393 | INFO | Connecting...
+2025-06-27 09:30:55,488 | INFO | Connected! Production DC5 (media) - IPv4
+2025-06-27 09:30:55,488 | INFO | NetworkTask started
+2025-06-27 09:30:55,982 | INFO | Session initialized: Layer 158
+2025-06-27 09:30:55,982 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:30:55,983 | INFO | System: Windows 11 (en)
+2025-06-27 09:30:55,983 | INFO | Session started
+2025-06-27 09:30:55,994 | INFO | PingTask started
+2025-06-27 09:30:56,520 | INFO | PingTask stopped
+2025-06-27 09:30:56,522 | INFO | NetworkTask stopped
+2025-06-27 09:30:56,522 | INFO | Disconnected
+2025-06-27 09:30:56,523 | INFO | Session stopped
+2025-06-27 09:31:11,656 | INFO | NetworkTask stopped
+2025-06-27 09:31:11,659 | INFO | PingTask stopped
+2025-06-27 09:31:11,659 | INFO | Send exception: ConnectionResetError Connection lost
+2025-06-27 09:31:11,660 | INFO | [1] Retrying "channels.DeleteMessages" due to: Connection lost
+2025-06-27 09:31:11,660 | INFO | Disconnected
+2025-06-27 09:31:11,660 | INFO | Session stopped
+2025-06-27 09:31:11,661 | INFO | Connecting...
+2025-06-27 09:31:12,755 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:31:12,756 | INFO | NetworkTask started
+2025-06-27 09:31:12,998 | INFO | Connecting...
+2025-06-27 09:31:13,001 | INFO | Discarding packet: The msg_id is lower than all the stored values
+2025-06-27 09:31:13,002 | INFO | Send exception: ConnectionResetError Connection lost
+2025-06-27 09:31:13,002 | INFO | Disconnected
+2025-06-27 09:31:13,002 | INFO | NetworkTask stopped
+2025-06-27 09:31:13,003 | INFO | Disconnected
+2025-06-27 09:31:13,003 | INFO | Session stopped
+2025-06-27 09:31:13,003 | INFO | Connecting...
+2025-06-27 09:31:13,095 | INFO | Connected! Production DC5 - IPv4
+2025-06-27 09:31:13,095 | INFO | NetworkTask started
+2025-06-27 09:31:13,179 | INFO | Connected! Production DC5 (media) - IPv4
+2025-06-27 09:31:13,179 | INFO | NetworkTask started
+2025-06-27 09:31:13,439 | INFO | Session initialized: Layer 158
+2025-06-27 09:31:13,440 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:31:13,440 | INFO | System: Windows 11 (en)
+2025-06-27 09:31:13,440 | INFO | Session started
+2025-06-27 09:31:13,440 | INFO | PingTask started
+2025-06-27 09:31:13,981 | INFO | Session initialized: Layer 158
+2025-06-27 09:31:13,981 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:31:13,982 | INFO | System: Windows 11 (en)
+2025-06-27 09:31:13,982 | INFO | Session started
+2025-06-27 09:31:13,984 | INFO | PingTask started
+2025-06-27 09:31:17,116 | INFO | PingTask stopped
+2025-06-27 09:31:17,116 | INFO | NetworkTask stopped
+2025-06-27 09:31:17,117 | INFO | Disconnected
+2025-06-27 09:31:17,117 | INFO | Session stopped
+2025-06-27 09:31:17,143 | INFO | Connecting...
+2025-06-27 09:31:17,240 | INFO | Connected! Production DC5 (media) - IPv4
+2025-06-27 09:31:17,240 | INFO | NetworkTask started
+2025-06-27 09:31:17,675 | INFO | Session initialized: Layer 158
+2025-06-27 09:31:17,676 | INFO | Device: CPython 3.12.10 - Pyrogram 2.0.106
+2025-06-27 09:31:17,676 | INFO | System: Windows 11 (en)
+2025-06-27 09:31:17,676 | INFO | Session started
+2025-06-27 09:31:17,679 | INFO | PingTask started
+2025-06-27 09:31:23,886 | INFO | PingTask stopped
+2025-06-27 09:31:23,887 | INFO | NetworkTask stopped
+2025-06-27 09:31:23,887 | INFO | Disconnected
+2025-06-27 09:31:23,888 | INFO | Session stopped
