@@ -49,12 +49,15 @@ async def delete_after(bot, msg, delay):
 
 def get_video_size(url):
     try:
-        r = requests.head(url, allow_redirects=True, timeout=10)
+        r = requests.get(url, stream=True, timeout=10)
         if r.status_code == 200 and 'Content-Length' in r.headers:
             return int(r.headers['Content-Length']) / (1024 * 1024)
-    except:
-        pass
+        else:
+            print(f"⚠️ No Content-Length from {url}")
+    except Exception as e:
+        print(f"⚠️ Error while checking size: {e}")
     return None
+
 
 def find_best_resolution(base_url):
     for res in RESOLUTIONS:
