@@ -18,7 +18,7 @@ api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
 
 MAX_SIZE_MB = 500
-RESOLUTIONS = ["270x480", "360x640", "540x960", "720x1280"]
+RESOLUTIONS = ["720x1280", "540x960", "360x640", "270x480"]
 DOWNLOAD_DIR = "downloads"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
@@ -57,16 +57,12 @@ def get_video_size(url):
     return None
 
 def find_best_resolution(base_url):
-    for res in reversed(RESOLUTIONS):  # High to low
+    for res in RESOLUTIONS:
         test_url = base_url.replace("720x1280", res)
         size = get_video_size(test_url)
-        print(f"🔍 Checking {res} | Size: {size if size else 'Unknown'} MB")
-        if size is None:
-            return test_url, res  # Try anyway
-        if size <= MAX_SIZE_MB:
+        if size and size <= MAX_SIZE_MB:
             return test_url, res
     return None, None
-
 
 def generate_thumbnail(video_path):
     thumb = "thumb.jpg"
