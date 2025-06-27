@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 from pyrogram.errors import FloodWait
 from tqdm import tqdm
 import time
+import logging
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -29,6 +31,15 @@ pending_video_data = {}
 video_selection_msg = {}
 
 bot = Client("bot_session", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler("bot.log"),
+        logging.StreamHandler()  # Show in terminal
+    ]
+)
 
 async def send_temp_message(bot, chat_id, text, delay=60):
     try:
@@ -251,6 +262,7 @@ async def upload_video(app, chat_id, filename, caption, index):
 
 @bot.on_message(filters.command("start"))
 async def start_message(bot, message: Message):
+    logging.info(f"/start by {message.from_user.id} ({message.from_user.first_name})")
     await send_temp_message(bot, message.chat.id,
         "👋 Welcome to the Lecture Video Uploader Bot!\n\n"
         "📂 Use /upload to start uploading your lecture file (.html or .txt).\n"
@@ -280,6 +292,14 @@ async def stop_command(bot, message: Message):
         current_task.cancel()
     await send_temp_message(bot, chat_id, "🛑 Upload cancelled. Use /upload to start again.")
 
+@bot.on_message(filters.command("ronny"))
+async def shutdown_bot(bot, message: Message):
+    chat_id = message.chat.id
+    await bot.send_message(chat_id, "🛑 Bot is shutting down by command /ronny.")
+    logging.warning(f"❌ Bot shutdown triggered by user {chat_id} ({message.from_user.first_name})")
+    await asyncio.sleep(2)
+    os._exit(0)  # Force exit without cleanup
+
 
 @bot.on_message(filters.document)
 async def handle_document(bot, message: Message):
@@ -292,6 +312,7 @@ async def handle_document(bot, message: Message):
     file_ext = message.document.file_name.split('.')[-1].lower()
     path = os.path.join(DOWNLOAD_DIR, f"input.{file_ext}")
     await message.download(file_name=path)
+    logging.info(f"📄 File received: {message.document.file_name} from {chat_id}")
 
     if not os.path.exists(path):
         await send_temp_message(bot, chat_id, "❌ File download failed.")
@@ -382,4 +403,5 @@ async def handle_video_selection(bot, message: Message):
     
 if __name__ == "__main__":
     print("🚀 Starting bot...")
+    logging.info("🚀 Starting bot...")
     bot.run()
