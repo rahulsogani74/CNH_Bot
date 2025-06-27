@@ -57,13 +57,7 @@ async def delete_after(bot, msg, delay):
     except:
         pass
 
-
-def get_video_size(url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-        "Accept": "*/*",
-        "Referer": "https://utkarsh.com/",
-    }
+def get_video_size(url, headers):
     try:
         r = requests.get(url, stream=True, timeout=10, headers=headers)
         if r.status_code == 200 and 'Content-Length' in r.headers:
@@ -78,16 +72,19 @@ def get_video_size(url):
 
 def find_best_resolution(base_url):
     headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Referer": "https://utkarsh.com/"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "Referer": "https://utkarsh.com/",
+        "Accept": "*/*",
     }
+
+    session = requests.Session()  # Session helps with cookies and persistent headers
 
     for res in RESOLUTIONS:
         test_url = base_url.replace("720x1280", res)
         try:
-            response = requests.get(test_url, stream=True, timeout=10, headers=headers)
+            response = session.get(test_url, stream=True, timeout=10, headers=headers)
             if response.status_code == 200:
-                size_mb = get_video_size(test_url)
+                size_mb = get_video_size(test_url, headers)
                 if size_mb is None or size_mb <= MAX_SIZE_MB:
                     logging.info(f"🎯 Selected resolution: {res} | Size: {size_mb if size_mb else 'Unknown'} MB | URL: {test_url}")
                     return test_url, res
