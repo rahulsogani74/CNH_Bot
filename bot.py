@@ -60,22 +60,30 @@ async def delete_after(bot, msg, delay):
 
 def get_video_size(url):
     try:
-        r = requests.get(url, stream=True, timeout=10)
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+        r = requests.get(url, stream=True, timeout=10, headers=headers)
         if r.status_code == 200 and 'Content-Length' in r.headers:
-            return int(r.headers['Content-Length']) / (1024 * 1024)
+            size_mb = int(r.headers['Content-Length']) / (1024 * 1024)
+            logging.info(f"✅ Size check passed: {url} | {size_mb:.2f} MB")
+            return size_mb
         else:
-            print(f"⚠️ No Content-Length from {url}")
+            logging.warning(f"⚠️ Size check failed: {url} | Status: {r.status_code}, Headers: {r.headers}")
     except Exception as e:
-        print(f"⚠️ Error while checking size: {e}")
+        logging.error(f"❌ Exception while checking size: {e} | URL: {url}")
     return None
-
 
 def find_best_resolution(base_url):
     for res in RESOLUTIONS:
         test_url = base_url.replace("720x1280", res)
         size = get_video_size(test_url)
         if size and size <= MAX_SIZE_MB:
+            logging.info(f"🎯 Selected resolution: {res} | Size: {size:.2f} MB | URL: {test_url}")
             return test_url, res
+        else:
+            logging.warning(f"❌ Skipping resolution: {res} | Size: {size}")
+    logging.error(f"❌ No suitable resolution found for base URL: {base_url}")
     return None, None
 
 def generate_thumbnail(video_path):
