@@ -57,10 +57,13 @@ def get_video_size(url):
     return None
 
 def find_best_resolution(base_url):
-    for res in reversed(RESOLUTIONS):  # Try highest resolution first
+    for res in reversed(RESOLUTIONS):  # High to low
         test_url = base_url.replace("720x1280", res)
         size = get_video_size(test_url)
-        if size and size <= MAX_SIZE_MB:
+        print(f"🔍 Checking {res} | Size: {size if size else 'Unknown'} MB")
+        if size is None:
+            return test_url, res  # Try anyway
+        if size <= MAX_SIZE_MB:
             return test_url, res
     return None, None
 
